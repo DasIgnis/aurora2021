@@ -1,13 +1,6 @@
-import BaseFuzzyFunction from "./FuzzyLogicFunctions/BaseFuzzyFunction";
-import LeftShoulderFuzzyFunction from "./FuzzyLogicFunctions/LeftShoulderFuzzyFunction";
-import RightShoulderFuzzyFunction from "./FuzzyLogicFunctions/RightShoulderFuzzyFunction";
-import SFunctionFuzzyFunction from "./FuzzyLogicFunctions/SFunctionFuzzyFunction";
-import Table from "./FuzzyLogicFunctions/Table";
-import TrapezoidFuzzyFunction from "./FuzzyLogicFunctions/TrapezoidFuzzyFunction";
-import TriangleFuzzyFunction from "./FuzzyLogicFunctions/TriangleFuzzyFunction";
-
 // singleton instantiation
 import Reducers from "./ScaleResultReducers/Reducers";
+import Validator from "./validation/validator";
 
 
 class FuzzyDecisions {
@@ -37,7 +30,8 @@ class FuzzyDecisions {
 	}
 
 	validateRules(rules) {
-		if (!rules.every(({func}) => func instanceof(BaseFuzzyFunction))) {
+		Validator.validate(rules);
+		/*if (!rules.every(({func}) => func instanceof(BaseFuzzyFunction))) {
 			throw new Error("All rules should be instance of BaseFuzzyFunction");
 		}
 
@@ -105,7 +99,7 @@ class FuzzyDecisions {
 		const EPS = 0.00001;
 		if (Math.abs(rightMaximum - areaSum) > EPS) {
 			throw new Error("function sum must be 1 at any point");
-		}
+		}*/
 	}
 
 	getDecision(parameters) {

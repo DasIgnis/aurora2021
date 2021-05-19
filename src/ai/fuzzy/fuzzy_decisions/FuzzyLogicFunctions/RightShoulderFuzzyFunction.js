@@ -36,6 +36,14 @@ class RightShoulderFuzzyFunction extends BaseFuzzyFunction {
             in fact: this state is unattainable due to the first two conditions
         */
 	}
+
+    getArea() {
+        return 1/2 * (this.p2 - this.p1);
+    }
+
+    getSegment() {
+        return {left: this.p1, right: this.p2};
+    }
 }
 
 export default RightShoulderFuzzyFunction;

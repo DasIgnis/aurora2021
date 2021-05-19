@@ -28,6 +28,16 @@ class SFunctionFuzzyFunction extends BaseFuzzyFunction {
             Solution from condition: 1 - (x - p)^2 = 0
         */
 	}
+
+    getArea() {
+        return 1/2 * (this.p3 - this.p2);
+    }
+
+    getSegment() {
+        const x1 = this.p - 1;
+		const x2 = this.p + 1;
+        return {left: x1, right: x2};
+    }
 }
 
 export default SFunctionFuzzyFunction;

@@ -38,6 +38,14 @@ class TriangleFuzzyFunction extends BaseFuzzyFunction {
             in fact: the first condition saves us from the value 'Infinity' in js (when divided by zero)
         */
 	}
+
+    getArea() {
+        return 1/2 * (this.p3 - this.p2);
+    }
+
+    getSegment() {
+        return {left: this.p1, right: this.p4};
+    }
 }
 
 export default TriangleFuzzyFunction;

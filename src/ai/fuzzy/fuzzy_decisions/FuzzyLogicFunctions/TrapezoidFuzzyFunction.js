@@ -42,6 +42,14 @@ class TrapezoidFuzzyFunction extends BaseFuzzyFunction {
             in fact: if the points match, we will exit earlier in the conditions, i.e. for us the actual division by zero is unattainable (we could not counterargument the argument, so we think so)
         */
 	}
+
+    getArea() {
+        return 1/2 * (this.p3 - this.p2);
+    }
+
+    getSegment() {
+        return {left: this.p1, right: this.p3};
+    }
 }
 
 export default TrapezoidFuzzyFunction;
