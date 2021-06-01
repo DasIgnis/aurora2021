@@ -198,10 +198,9 @@ let SlimeRushScene = new Phaser.Class({
         this.load.spritesheet('slime', slimeSpriteSheet, this.slimeFrameConfig);
         this.load.audio('footsteps', Footsteps);
 
-
-
         this.load.image("gun", gunPng);
         this.load.image("bullet", bulletPng);
+        this.load.glsl('fire', "./shaders/sample.frag");
     },
     create: function () {
 
@@ -304,6 +303,17 @@ let SlimeRushScene = new Phaser.Class({
                 bullet.setVisible(false)
             }
         });
+
+        //let shader = this.add.shader('fire', 50, 50, 400, 400).setOrigin(0);
+        const width = 400.0;
+        const height = 300.0;
+        let shader = this.add.shader('fire', 100, 600 - height - 200, 400, 300).setOrigin(0);
+        shader.setUniform('width.value', width);
+        shader.setUniform('height.value', height);
+        shader.setUniform('left.value', 100.0);
+        shader.setUniform('top.value', 200.0);
+        shader.setUniform('alpha.value', 1.7);
+        shader.setUniform('beta.value', -1.0);
     },
     update: function () {
         if (this.gameObjects) {

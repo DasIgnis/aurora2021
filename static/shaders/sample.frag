@@ -1,47 +1,54 @@
-#ifdef GL_ES
+---
+name: fire
+type: fragment
+author: Richard Davey
+uniform.width: { "type": "1f", "value": "0.0" }
+uniform.height: { "type": "1f", "value": "0.0" }
+uniform.left: { "type": "1f", "value": "0.0" }
+uniform.top: { "type": "1f", "value": "0.0" }
+uniform.alpha: { "type": "1f", "value": "0.0" }
+uniform.beta: { "type": "1f", "value": "0.0" }
+---
+
 precision mediump float;
-#endif
 
 uniform float time;
 uniform vec2 mouse;
 uniform vec2 resolution;
+uniform float width;
+uniform float height;
+uniform float left;
+uniform float top;
+uniform float alpha;
+uniform float beta;
 
-float snoise(vec3 uv, float res)
+uniform float size;
+
+vec2 wave(vec2 p) {
+    float x = sin( 3.0*p.y + 15.0*p.x + 3.0*time) * 0.05;
+    float y = sin( 3.0*p.y + 15.0*p.x + 3.0*time) * 0.05;
+    return vec2(p.x + x, p.y + y);
+}
+
+float rand(float co)
 {
-    const vec3 s = vec3(1e0, 1e2, 1e3);
-
-    uv *= res;
-
-    vec3 uv0 = floor(mod(uv, res))*s;
-    vec3 uv1 = floor(mod(uv+vec3(1.), res))*s;
-
-    vec3 f = fract(uv); f = f*f*(3.0-2.0*f);
-
-    vec4 v = vec4(uv0.x+uv0.y+uv0.z, uv1.x+uv0.y+uv0.z,
-    uv0.x+uv1.y+uv0.z, uv1.x+uv1.y+uv0.z);
-
-    vec4 r = fract(sin(v*1e-1)*1e3);
-    float r0 = mix(mix(r.x, r.y, f.x), mix(r.z, r.w, f.x), f.y);
-
-    r = fract(sin((v + uv1.z - uv0.z)*1e-1)*1e3);
-    float r1 = mix(mix(r.x, r.y, f.x), mix(r.z, r.w, f.x), f.y);
-
-    return mix(r0, r1, f.z)*2.-1.;
+    return fract(sin(dot(vec2(co, co) ,vec2(12.9898,78.233))) * 43758.5453);
 }
 
 void main( void ) {
+    //vec2 position = ( (gl_FragCoord.xy) / (vec2(width, height)) )  - vec2(left / resolution.x, (-top + height) / resolution.y);
+    vec2 position = vec2(gl_FragCoord.x, height - gl_FragCoord.y) / vec2(width, height) - vec2(left / width, -top / height);
+    vec2 uv = wave( gl_FragCoord.xy / resolution.xy ); 
 
-    vec2 p = -.5 + gl_FragCoord.xy / resolution.xy;
-    p.x *= resolution.x/resolution.y;
+    float a = uv.y + rand(gl_FragCoord.y) * 10.0 + uv.x / 5.0;
+    float blue_intents = abs(sin(a * 10.0) * 0.6);
 
-    float color = 3.0 - (3.*length(2.*p));
+    float dist = distance(position.x, 0.0);
+    float xOpacity = (1.0 - abs(0.5 - position.x)) * 0.5;
+    float yOpacity = (1.0 - abs(0.5 - position.y)) * 0.5;
 
-    vec3 coord = vec3(atan(p.x,p.y)/6.2832+.5, length(p)*.4, .5);
+    float opacity = (xOpacity + yOpacity) * alpha + beta;
 
-    for(int i = 1; i <= 7; i++)
-    {
-        float power = pow(2.0, float(i));
-        color += (1.5 / power) * snoise(coord + vec3(0.,-time*.05, time*.01), power*16.);
-    }
-    gl_FragColor = vec4( color, pow(max(color,0.),1.)*0.4, pow(max(color,0.),2.)*0.15 , color);
+    //gl_FragColor = vec4(opacity, 0.0, 0.0,  1.0);
+    gl_FragColor = vec4(blue_intents / 1.5, blue_intents / 1.5, blue_intents, 0.6) * opacity;
 }

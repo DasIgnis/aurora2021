@@ -5,12 +5,14 @@ import menuBackgroundJson from '../assets/menu_background.json'
 import StartingScene from "./starting-scene";
 import SlimeRushScene from "./slime-rush";
 import ProcGenScene from "./proc-gen-scene";
+import HideNSeekScene from "./hide-n-seek-scene";
 
 //!!!!!!!!!!!!!Добавлять сцены здесь!!!!!!!!!!!!!!!!111
 const scenes = [
     ['StartingScene', StartingScene],
     ['SlimeRushScene', SlimeRushScene],
-    ['ProcGenScene', ProcGenScene]
+    ['ProcGenScene', ProcGenScene],
+    ['HideNSeekScene', HideNSeekScene]
 ];
 
 let MenuScene = new Phaser.Class({

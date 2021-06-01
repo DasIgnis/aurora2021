@@ -3,7 +3,7 @@ import Phaser from 'phaser'
 import ScenesMenu from '../scenes/scenes-menu';
 
 const config = {
-  type: Phaser.AUTO,
+  type: Phaser.WEBGL,
   width: 800,
   height: 600,
   pixelArt: true,
