@@ -19,14 +19,13 @@ export default function placeFurniture(scene, map, furnitureLayer) {
 
     const tile = map.getTileAt(firstTile.i, firstTile.j, false, furnitureLayer);
     let processedTiles = [];
-    let addedSprites = [];
-    tryPlaceSprite(scene, map, furnitureLayer, tile, previousPlacedFurniture, processedTiles, addedSprites);
+    tryPlaceSprite(scene, map, furnitureLayer, tile, previousPlacedFurniture, processedTiles);
 }
 
 function tryPlaceSprite(
     scene, map, furnitureLayer, 
     tile, previousSpriteData, 
-    processedTiles, addedSprites) {
+    processedTiles) {
     
     if (tile === null) {
         return;
@@ -79,7 +78,7 @@ function tryPlaceSprite(
     }
 
     const spriteData = newPlacedSpriteData === null ? previousSpriteData : newPlacedSpriteData;
-    tryPlaceSprite(scene, map, furnitureLayer, leftTile, spriteData, processedTiles, addedSprites);
-    tryPlaceSprite(scene, map, furnitureLayer, rightTile, spriteData, processedTiles, addedSprites);
-    tryPlaceSprite(scene, map, furnitureLayer, bottomTile, spriteData, processedTiles, addedSprites);
+    tryPlaceSprite(scene, map, furnitureLayer, leftTile, spriteData, processedTiles);
+    tryPlaceSprite(scene, map, furnitureLayer, rightTile, spriteData, processedTiles);
+    tryPlaceSprite(scene, map, furnitureLayer, bottomTile, spriteData, processedTiles);
 }
